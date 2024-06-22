@@ -6,6 +6,8 @@ class Solution {
         int prev = Integer.MIN_VALUE;
         int n = nums.length;
         for(int i=0;i<n-2;i++){
+            if(nums[i] > 0)
+                break;
             if(prev == nums[i])
                 continue;
             prev = nums[i];
