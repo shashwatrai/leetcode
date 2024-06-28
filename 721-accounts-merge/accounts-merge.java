@@ -41,7 +41,6 @@ class Solution {
         for(int i=0;i<n;i++)
             findParent(parent,i);
 
-        System.out.println(Arrays.toString(parent));
         List<List<String>> ans  = new ArrayList<>();
         for(int i=0;i<n;i++){
             
