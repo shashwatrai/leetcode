@@ -8,23 +8,19 @@ class Solution {
             map.get(i[0]).add(i[1]);
         }
         int area = Integer.MAX_VALUE;
-        List<Integer> xAxes = new ArrayList<>(map.keySet());
-        Collections.sort(xAxes);
-        for(int i=0;i< xAxes.size();i++){
+        
+        for(int i=0;i< points.length;i++){
 
-            for(int j=i+1;j<xAxes.size();j++){
-                List<Integer> common = new ArrayList<>();
-                for(int k:map.get(xAxes.get(i))){
-                    if(map.get(xAxes.get(j)).contains(k))
-                        common.add(k);
-                }
-                if(common.size() > 1){
-                    Collections.sort(common);
-                    int width  = Integer.MAX_VALUE;
-                    for(int t = 1;t<common.size() ; t++){
-                        width = Math.min(width,common.get(t)-common.get(t-1));
-                    }
-                    area = Math.min(area, width * (xAxes.get(j)- xAxes.get(i)));
+            for(int j=i+1;j<points.length;j++){
+                
+                int x1 = points[i][0],x2 = points[j][0];
+                int y1 = points[i][1],y2 = points[j][1];
+                if(x1 == x2 || y1 == y2) 
+                    continue;
+                
+                if(map.get(x1 ).contains(y1) && map.get(x1 ).contains(y2) && 
+                map.get(x2 ).contains(y1) && map.get(x2 ).contains(y2)){
+                    area = Math.min(area,Math.abs(x1-x2) * Math.abs(y1-y2));
                 }
             }
 
