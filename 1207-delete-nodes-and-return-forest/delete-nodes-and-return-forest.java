@@ -14,38 +14,33 @@
  * }
  */
 class Solution {
-    void helper(TreeNode root,TreeNode parent,Set<Integer> set,List<TreeNode> res){
+    TreeNode helper(TreeNode root,Set<Integer> set,List<TreeNode> res){
         if(root == null)
-            return;
+            return null;
 
-        TreeNode left = root.left;
-        TreeNode right = root.right;
+        root.left = helper(root.left,set,res);
+        root.right = helper(root.right,set,res);
+
         if(set.contains(root.val)){
-            if(parent != null){
-                if(parent.left == root)
-                    parent.left = null;
-                else
-                    parent.right = null;
-            }
-            root.left = null;
-            root.right = null;
-            if(left != null && !set.contains(left.val))
-                res.add(left);
-            if(right != null && !set.contains(right.val))
-                res.add(right);
+            if(root.left != null)
+                res.add(root.left);
+            if(root.right != null)
+                res.add(root.right);
+            return null;
         }
-        helper(left,root.left ==left?root:null,set,res);
-        helper(right,root.right ==right?root:null,set,res);
+        return root;
+        
     }
     public List<TreeNode> delNodes(TreeNode root, int[] to_delete) {
 
         Set<Integer> set = Arrays.stream(to_delete).collect(HashSet::new,HashSet::add,HashSet::addAll);
 
         List<TreeNode> res = new ArrayList<>();
-        if(!set.contains(root.val))
-            res.add(root);
-        helper(root,null,set,res);
-
+        
+            
+        TreeNode ans = helper(root,set,res);
+        if(ans != null )
+            res.add(ans);
         return res;
     }
 }
