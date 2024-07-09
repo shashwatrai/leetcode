@@ -8,7 +8,6 @@ class Solution {
         k  =  k  + 1 - (int) Math.pow(2,n);
 
 
-        System.out.println(n+" "+k+" "+(Math.log(k+2)/Math.log(2)));
         StringBuilder stb = new StringBuilder();
 
         for(int i=0;i<n;i++){
