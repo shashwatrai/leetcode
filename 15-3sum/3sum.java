@@ -1,37 +1,35 @@
 class Solution {
     public List<List<Integer>> threeSum(int[] nums) {
-        
-        Arrays.sort( nums);
-        List<List<Integer>> res = new ArrayList<>();
-        int prev = Integer.MIN_VALUE;
-        int n = nums.length;
-        for(int i=0;i<n-2;i++){
-            if(nums[i] > 0)
-                break;
-            if(prev == nums[i])
-                continue;
-            prev = nums[i];
-            int target = -nums[i];
+        Arrays.sort(nums);
+        List<List<Integer>> ans =  new ArrayList<>();
 
-            int l = i+1;
-            int r = n-1;
-            while(l<r){
-                if(nums[l]+nums[r] > target){
-                    r--;
-                }else if(nums[l] + nums[r] < target){
-                    l++;
+        for(int i=0;i<nums.length -2 ;i++){
+            if(i>0 && nums[i] == nums[i-1])
+                continue;
+            int sum = - nums[i];
+            
+            int x = i+1,y = nums.length -1;
+            while(x<y){
+                if(sum == nums[x] + nums[y]){
+                    ans.add(Arrays.asList(nums[i],nums[x],nums[y]));
+                     do{
+                        x++;
+                    }while(x == i+1 || (x<nums.length && x > i+1 && nums[x] == nums[x-1]));
+                    do{
+                        y--;
+                    }while(y == nums.length - 1 || (y>0 && y < nums.length-1 && nums[y] == nums[y+1]));
+
+                }else if(sum > nums[x]+nums[y]){
+                    do{
+                        x++;
+                    }while(x<nums.length  && nums[x] == nums[x-1]);
                 }else{
-                    res.add(Arrays.asList(nums[i],nums[l],nums[r]));
-                    int test = nums[l];
-                    while(l<r && nums[l] == test)
-                        l++;
-                    test = nums[r];
-                    while(l<r && nums[r] == test)
-                        r--;
+                    do{
+                        y--;
+                    }while(y>0 && nums[y] == nums[y+1]);
                 }
             }
-            
         }
-        return res;
+        return ans;
     }
 }
