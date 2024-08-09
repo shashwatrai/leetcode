@@ -19,22 +19,17 @@ class Solution {
         int []pi = preprocess(b);
 
         int n = a.length();
+        int r = (int)Math.ceil((double)b.length()/n)+1;
         int k = -1;
-        int maxK = -1;
-        for(int i=0;;i++){
+        for(int i=0;i<r*n;i++){
             while(k > -1 && a.charAt(i%n) != b.charAt(k+1) )
                 k  = pi[k];
             if(a.charAt(i%n) == b.charAt(k+1))
                 k++;
 
-            // System.out.println(i+" "+k+" "+maxK);
-            if(i >2* n && (maxK == -1 || k <= maxK))
-                return -1;
-            if(i >= n-1)
-                maxK = Math.max(k,maxK);
             if( k == b.length()-1)
                 return (int)Math.ceil((double)(i+1)/n);
         }
-        // return -1;
+        return -1;
     }
 }
