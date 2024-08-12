@@ -1,6 +1,6 @@
 class KthLargest {
     PriorityQueue<Integer> minPQ ;
-    PriorityQueue<Integer> maxPQ ;
+    
     int size;
     public KthLargest(int k, int[] nums) {
         minPQ= new PriorityQueue<>(new Comparator<Integer>(){
@@ -8,11 +8,7 @@ class KthLargest {
                 return a-b;
             }
         });
-        maxPQ= new PriorityQueue<>(new Comparator<Integer>(){
-            public int compare(Integer a, Integer b){
-                return b-a;
-            }
-        });
+
         size = k;
 
         for(int i: nums){
@@ -27,10 +23,8 @@ class KthLargest {
             if(minPQ.size() < size)
                 return -1;
        }else{
-            if(minPQ.peek() >= val)
-                maxPQ.add(val);
-            else{
-                maxPQ.add(minPQ.poll());
+            if(minPQ.peek() < val){
+                minPQ.poll();
                 minPQ.add(val);
             }
            
