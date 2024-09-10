@@ -26,7 +26,7 @@ class Solution {
             }
             x+=dir[currD][0];
             y+=dir[currD][1];
-            System.out.println(currD+" "+i+" "+j+" "+x+" "+y);
+            // System.out.println(currD+" "+i+" "+j+" "+x+" "+y);
             head = head.next;
         }
         return mat;
