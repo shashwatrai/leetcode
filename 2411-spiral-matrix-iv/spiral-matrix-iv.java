@@ -10,42 +10,25 @@
  */
 class Solution {
     public int[][] spiralMatrix(int m, int n, ListNode head) {
-        int matrix[][] = new int[m][n];
-        for(int i[] : matrix)
-            Arrays.fill(i,-1);
-        int r =0 ;
-        while(head != null){
-            int x = r,y =r;
-            while(y < n-r && head != null){
-                matrix[x][y++] = head.val;
-                head = head.next;
-            }
-            if(y == n-r){
-                y--;
-                x++;
-            }
-            while(x < m-r && head != null){
-                matrix[x++][y] = head.val;
-                head = head.next;
-            }
-            if(x == m-r){
-                x--;
-                y--;
-            }
-            while(y >= r && head != null){
-                matrix[x][y--] = head.val;
-                head = head.next;
-            }
-            if(y == r-1){
-                y++;
-                x--;
-            }
-            while(x > r && head != null){
-                matrix[x--][y] = head.val;
-                head = head.next;
-            }
-            r++;
+        int mat[][] = new int[m][n];
+        for(int i[]:mat){
+            Arrays.fill(i ,-1);
         }
-        return matrix;
+        int dir[][] = {{0,1},{1,0},{0,-1},{-1,0}};
+        int currD = 0;
+        int x=0,y=0;
+        while(head != null){
+            mat[x][y]  =  head.val;
+            int i = x+dir[currD][0];
+            int j = y+dir[currD][1];
+            if(i == m || j == n || i < 0 || j < 0 || mat[i][j] > -1){
+                currD = (currD+1)%4;
+            }
+            x+=dir[currD][0];
+            y+=dir[currD][1];
+            System.out.println(currD+" "+i+" "+j+" "+x+" "+y);
+            head = head.next;
+        }
+        return mat;
     }
 }
