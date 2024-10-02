@@ -13,29 +13,19 @@ class Solution {
             maxLen = Math.max(len,maxLen);
             if(min + limit >= nums[i] && max - limit <= nums[i]){
                 len++;
-            }else if(min + limit < nums[i]){
-                int prevMin = minPQ.peek();
-                while(!minPQ.isEmpty() && (minPQ.peek() <= prevMin || nums[minPQ.peek()] + limit < nums[i])){
-                    prevMin = Math.max(prevMin,minPQ.poll());
+            }else {
+                int prev = min + limit < nums[i] ? minPQ.peek() : maxPQ.peek();
+                while(!minPQ.isEmpty() && (minPQ.peek() <= prev || nums[minPQ.peek()] + limit < nums[i])){
+                    prev = Math.max(prev,minPQ.poll());
                 }
-                while(!maxPQ.isEmpty() && (maxPQ.peek() <= prevMin || nums[maxPQ.peek()] - limit > nums[i])){
-                    prevMin = Math.max(prevMin,maxPQ.poll());
+                while(!maxPQ.isEmpty() && (maxPQ.peek() <= prev || nums[maxPQ.peek()] - limit > nums[i])){
+                    prev = Math.max(prev,maxPQ.poll());
                 }
                 
-                len = i - prevMin;
-            }else{
-                int prevMax = maxPQ.peek();
-                while(!maxPQ.isEmpty() && (maxPQ.peek() <= prevMax || nums[maxPQ.peek()] - limit > nums[i])){
-                    
-                    prevMax = Math.max(prevMax,maxPQ.poll());
-                }
-                while(!minPQ.isEmpty() && (minPQ.peek() <= prevMax || nums[minPQ.peek()] + limit < nums[i])){
-                    prevMax = Math.max(prevMax,minPQ.poll());
-                }
-                len = i - prevMax;
+                len = i - prev;
             }
-             minPQ.add(i);
-             maxPQ.add(i);
+            minPQ.add(i);
+            maxPQ.add(i);
             //  System.out.println(len+" "+i);
         }
         maxLen = Math.max(len,maxLen);
