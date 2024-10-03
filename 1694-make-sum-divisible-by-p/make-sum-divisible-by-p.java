@@ -20,11 +20,9 @@ class Solution {
             temp += (long)nums[i];
             
             int newMod = (int)(temp%(long)p);
-            if(newMod != 0)
-                minLen = Math.min(minLen,i-map.getOrDefault((p+newMod-mod)%p,i-n));
-            if(newMod == mod){
-                minLen= Math.min(minLen,i - map.get(0));
-            }
+            
+            minLen = Math.min(minLen,i-map.getOrDefault((p+newMod-mod)%p,i-n));
+
             map.put(newMod,i);
         }
         return minLen == n?-1:minLen;
