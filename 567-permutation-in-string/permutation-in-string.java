@@ -17,7 +17,7 @@ class Solution {
         }
 
         for(int i=0;i<s2.length()-s1.length();i++){
-            System.out.println(Arrays.toString(freqS1) + "\n"+ Arrays.toString(freqS2) +"\n" + count +"\n"); 
+            // System.out.println(Arrays.toString(freqS1) + "\n"+ Arrays.toString(freqS2) +"\n" + count +"\n"); 
             if(count == 26)
                 return true;
 
