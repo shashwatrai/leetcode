@@ -2,19 +2,25 @@
 class RandomizedSet {
     List<Integer> list;
     Map<Integer,Integer> map;
-
+    int size;
 
     public RandomizedSet() {
         map = new HashMap<>();
         list = new ArrayList<>();
+        size = 0;
     }
     
     public boolean insert(int val) {
         boolean ans = false;
         if(!map.containsKey(val)){
             ans = true;
-            list.add(val);
-            map.put(val,list.size()-1);
+            if(size < list.size()){
+                list.set(size,val);
+            }else{
+                list.add(val);   
+            }  
+            map.put(val,size);
+            size++;
         }
         return ans;
     }
@@ -23,7 +29,12 @@ class RandomizedSet {
         boolean ans = false;
         if(map.containsKey(val))  {
             ans = true;
-            list.set(map.get(val),Integer.MIN_VALUE); 
+            size--;
+            if(size > 0){
+                list.set(map.get(val),list.get(size));
+                map.put(list.get(size),map.get(val));
+            }
+            list.set(size,Integer.MIN_VALUE); 
         }
 
         map.remove(val);
@@ -31,14 +42,8 @@ class RandomizedSet {
     }
     
     public int getRandom() {
-        if(map.size() < 1){
-            return -1;
-        }
-        int random = (int)(Math.random() * list.size());
-
-        while(random < list.size() && list.get(random) == Integer.MIN_VALUE){
-            random = (int)(Math.random() * list.size());
-        }
+       
+        int random = (int)(Math.random() * size);
         return list.get(random);
     }
 }
