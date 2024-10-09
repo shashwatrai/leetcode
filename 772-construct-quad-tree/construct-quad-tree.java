@@ -57,12 +57,7 @@ class Solution {
          && !( (topLeft.val ^ topRight.val) || (topLeft.val ^ bottomLeft.val) || (topLeft.val ^ bottomRight.val) )){
             return new Node(topLeft.val , true);
          }else{
-            Node curr = new Node();
-            curr.topLeft =topLeft;
-            curr.topRight = topRight;
-            curr.bottomLeft = bottomLeft;
-            curr.bottomRight = bottomRight;
-            return curr;
+            return new Node(false,false,topLeft,topRight,bottomLeft,bottomRight);
          }
         
     }
