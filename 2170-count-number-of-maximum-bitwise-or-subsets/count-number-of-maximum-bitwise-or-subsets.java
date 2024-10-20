@@ -1,6 +1,6 @@
 class Solution {
     int count;
-    public void helper(int []nums,int indx,int curr,String s,int max){
+    public void helper(int []nums,int indx,int curr,int max){
         
         
 
@@ -10,8 +10,8 @@ class Solution {
             }
             return;
         }
-        helper(nums,indx+1,curr,s,max);
-        helper(nums,indx+1,curr|nums[indx],s+","+nums[indx],max);
+        helper(nums,indx+1,curr,max);
+        helper(nums,indx+1,curr|nums[indx],max);
     }
 
     public int countMaxOrSubsets(int[] nums) {
@@ -20,7 +20,7 @@ class Solution {
         for(int i:nums){
             max |= i;
         }
-        helper(nums,0,0,"",max);
+        helper(nums,0,0,max);
         return count;
     }
 }
