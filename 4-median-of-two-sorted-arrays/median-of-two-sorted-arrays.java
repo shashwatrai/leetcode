@@ -25,7 +25,7 @@ class Solution {
            
             int l1 = m > 0 ? nums1[m-1]:Integer.MIN_VALUE;
             int r1 = m < nums1.length  ? nums1[m]:Integer.MAX_VALUE;
-            int l2 = indx <= nums2.length && indx > 0? nums2[indx-1]:indx <= 0?Integer.MIN_VALUE:Integer.MAX_VALUE;
+            int l2 = indx > 0? nums2[indx-1]:Integer.MIN_VALUE;
             int r2 = indx < nums2.length?nums2[indx]:Integer.MAX_VALUE;
             // System.out.println(m+" "+indx+" "+l1+" "+r1+" "+l2+" "+r2);
             if(l1 <= r2 && l2 <= r1){
