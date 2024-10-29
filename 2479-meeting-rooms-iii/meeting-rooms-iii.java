@@ -1,47 +1,47 @@
+class Pair{
+    int time; 
+    int room;
+    Pair(int t,int r){
+        this.time = t;
+        this.room = r;
+    }
+}
 class Solution {
     public int mostBooked(int n, int[][] meetings) {
-        int count[] = new int[n];
-
-        Arrays.sort(meetings,(a,b)-> a[0]-b[0]);
-
-        PriorityQueue<long []> pq = new PriorityQueue<>((a,b)->a[0] != b[0] ? Long.compare(a[0], b[0]):Long.compare(a[1], b[1]));
-        PriorityQueue<Integer> unusedRoom = new PriorityQueue<>();
-        for(int i=0;i<n;i++){
-            unusedRoom.add(i);
-        }
-
+        
+        PriorityQueue<Pair> arrangements = new PriorityQueue<>((a,b)-> a.time != b.time? a.time-b.time : a.room - b.room);
+        PriorityQueue<Integer> rooms  = new PriorityQueue<>();
+        
+        for(int i=0;i<n;i++)
+            rooms.add(i);
+        
+        Arrays.sort(meetings, (a,b)-> a[0] != b[0] ? a[0] - b[0] : a[1]- b[1]);
+        int []freq = new int[n];
         for(int i=0;i<meetings.length;i++){
-
-            while(!pq.isEmpty() && pq.peek()[0] <= (long)meetings[i][0]){
-                unusedRoom.add((int)pq.poll()[1]);
+            while(!arrangements.isEmpty() && arrangements.peek().time <= meetings[i][0]){
+                rooms.add(arrangements.poll().room);
             }
 
-            if(unusedRoom.isEmpty()){
-                long []arr = pq.poll();
-                if(arr[0] > (long)((long)arr[0] - (long)meetings[i][0] + (long)meetings[i][1])){
-                    System.out.println("Faulty:"+ i +" "+meetings[i][0]+" "+meetings[i][1]+" "+Arrays.toString(arr));
-                }
-                arr[0] = (long)((long)arr[0] - (long)meetings[i][0] + (long)meetings[i][1]);
-                count[(int)arr[1]]++;
-
-                // System.out.println(i+" "+Arrays.toString(arr));
-                pq.add(arr);
-                
-            }else{
-                int room = unusedRoom.poll();
-                count[room]++;
-                pq.add(new long[]{meetings[i][1],room});
+            
+            int time = meetings[i][1];
+            if(rooms.isEmpty()){
+                Pair p = arrangements.poll();
+                time = p.time - meetings[i][0] + meetings[i][1];
+                rooms.add(p.room);
             }
+            int room = rooms.poll();
+            freq[room]++;
+            arrangements.add(new Pair(time,room));
         }
-        // System.out.println(Arrays.toString(count));
-        int ans=0,max= 0;
+
+        int max =0;
+        int ans= -1;
         for(int i=0;i<n;i++){
-            if(max < count[i]){
+            if(max < freq[i]){
                 ans = i;
-                max = count[i];
+                max = freq[i];
             }
         }
         return ans;
     }
-
 }
