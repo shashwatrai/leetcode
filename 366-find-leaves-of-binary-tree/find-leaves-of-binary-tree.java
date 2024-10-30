@@ -14,58 +14,26 @@
  * }
  */
 class Solution {
-    public void prepareGraph(TreeNode root,Map<TreeNode,Set<TreeNode>> adj,Map<TreeNode,Integer> inDegree , TreeNode parent){
+    public int traverse(TreeNode root,List<List<Integer>> res){
         
         if(root == null){
-            return;
+            return -1;
         }
-        if(!inDegree.containsKey(root))
-            inDegree.put(root,0);
         
-        if(!adj.containsKey(root)){
-            adj.put(root,new HashSet<>());
-        }
+        int lh = traverse(root.left , res);
+        int rh = traverse(root.right,res);
+        int ch = Math.max(lh,rh)+1;
 
-        if(parent != null){
-            inDegree.put(parent,inDegree.getOrDefault(parent,0)+1);
-            adj.get(root).add(parent);
+        if(res.size() <= ch){
+            res.add(new ArrayList<>());
         }
-
-        prepareGraph(root.left,adj,inDegree,root);
-        prepareGraph(root.right,adj,inDegree,root);
-        
+        res.get(ch).add(root.val);
+        return ch;
     }
     public List<List<Integer>> findLeaves(TreeNode root) {
-        Map<TreeNode,Set<TreeNode>> adj = new HashMap<>();
-        Map<TreeNode,Integer> inDegree = new HashMap<>();
-
-        prepareGraph(root,adj,inDegree,null);
-        
-        Queue<TreeNode> queue = new LinkedList<>();
-        
-        for(TreeNode i: inDegree.keySet()){
-            if(inDegree.get(i) == 0)
-                queue.add(i);
-        }
 
         List<List<Integer>> res= new ArrayList<>();
-
-        while(!queue.isEmpty()){
-            int len = queue.size();
-
-            List<Integer> temp= new ArrayList<>();
-            while(len-- > 0){
-                TreeNode node = queue.poll();
-                temp.add(node.val);
-                for(TreeNode j: adj.get(node)){
-                    inDegree.put(j,inDegree.get(j) - 1);
-                    if(inDegree.get(j) == 0){
-                        queue.add(j);
-                    }
-                }
-            }
-            res.add(temp);
-        }
+        traverse(root,res);
         return res;
     }
 }
