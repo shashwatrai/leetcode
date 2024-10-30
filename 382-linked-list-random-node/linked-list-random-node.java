@@ -11,20 +11,26 @@
 class Solution {
 
     
-    List<Integer> arr;
+    ListNode head;
     Random r;
     public Solution(ListNode head) {
-        arr = new ArrayList<>();
-        while(head != null){
-            arr.add(head.val);
-            head= head.next;
-        }
-        r = new Random();
+        this.head = head;
     }
     
     public int getRandom() {
-        int indx = r.nextInt(arr.size());
-        return arr.get(indx);
+        ListNode temp = head.next;
+        ListNode random = head;
+        Random r = new Random();
+        int cnt = 1 ;
+        while(temp != null){
+            int indx = r.nextInt(1 + cnt++);
+            
+            if(indx == 0){
+                random = temp;
+            }
+            temp = temp.next;
+        }
+        return random.val;
     }
 }
 
