@@ -17,29 +17,29 @@ class Solution {
             }else{
                 if(s.charAt(i) == ']'){
                     
-                    String temp ="";
+                    
+                    
                     while(!st1.peek().equals("[")){
-                        temp = st1.pop()+temp;
+                        stb.append(st1.pop());
                     }
                     st1.pop();
-                    
+                    String temp = stb.reverse().toString();
+                    stb.setLength(0);
                     int num = st2.pop();
-                    // System.out.println(st1+"|"+st2+"|"+temp+"|"+num);
                     while(num-- > 0){
                         stb.append(temp);
                     }
-                    st1.push(stb.toString());
+                    st1.push(stb.reverse().toString());
                     stb.setLength(0);
                 }else{
                     st1.push(s.substring(i,i+1));
-                    // System.out.println("test"+st1+"|"+s.substring(i,i+1));
                 }
             }
         }
-        String ans="";
+
         while(!st1.isEmpty()){
-            ans = st1.pop() + ans;
+            stb.append(st1.pop());
         }
-        return ans;
+        return stb.reverse().toString();
     }
 }
