@@ -1,36 +1,27 @@
 class TrieNode{
     boolean isEnd ;
-    boolean hasSubDirectory;
-    TrieNode []childs;
-    TrieNode subDirectories;
+    Map<String, TrieNode> childs;
 
     TrieNode(){
-        childs = new TrieNode[26];
-        hasSubDirectory = false;
+        childs = new HashMap<>();
         isEnd = false;
-        subDirectories = null;
     }
 }
 class Solution {
     TrieNode root;
     void addFile(String file){
         TrieNode curr = root;
-        
-        for(int i=0;i < file.length();i++){
+        String []folders = file.split("/");
 
-            if(file.charAt(i) == '/'){
-                if(curr.subDirectories == null)
-                    curr.subDirectories = new TrieNode();
-                curr.hasSubDirectory = true;
-                curr = curr.subDirectories;
-            }else{
-                if(curr.childs[file.charAt(i) - 'a'] == null){
-                    curr.childs[file.charAt(i) - 'a'] = new TrieNode();
-                }
-                curr  = curr.childs[file.charAt(i) - 'a'];
+        for(int i=0;i < folders.length;i++){
+           
+            if(!curr.childs.containsKey(folders[i])){
+                curr.childs.put(folders[i],new TrieNode());
             }
+            curr  = curr.childs.get(folders[i]);
+            
 
-            if(i == file.length() - 1)
+            if(i == folders.length - 1)
                 curr.isEnd = true;
         }
     }
@@ -46,18 +37,18 @@ class Solution {
         for(String file: folder){
             TrieNode curr = root;
             boolean isSubFolder = false;
-            for(int i=0;i<file.length();i++){
+            String []folders = file.split("/");
+            for(int i=0;i<folders.length;i++){
 
-                if(file.charAt(i) == '/'){
-                    curr = curr.subDirectories;
-                }else{
-                    curr  = curr.childs[file.charAt(i) - 'a'];
-                }
-                if(curr.hasSubDirectory && curr.isEnd && i != file.length()-1 ){
+                curr  = curr.childs.get(folders[i]);
+                
+                if(curr.isEnd && i != folders.length-1 ){
                     isSubFolder = true;
                     break;
                 }   
+                
             }
+            
             if(!isSubFolder)
                 set.add(file);
         }
