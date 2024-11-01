@@ -42,10 +42,10 @@ class Solution {
     public List<String> removeSubfolders(String[] folder) {
         root = new TrieNode();
         addAll(folder);
-        Set<String> set = new HashSet<>();
+        List<String> set = new ArrayList<>();
         for(String file: folder){
             TrieNode curr = root;
-            StringBuilder stb = new StringBuilder();
+            boolean isSubFolder = false;
             for(int i=0;i<file.length();i++){
 
                 if(file.charAt(i) == '/'){
@@ -53,13 +53,14 @@ class Solution {
                 }else{
                     curr  = curr.childs[file.charAt(i) - 'a'];
                 }
-                stb.append(file.charAt(i));
-                if((curr.hasSubDirectory && curr.isEnd) || i == file.length()-1 ){
-                    set.add(stb.toString());
+                if(curr.hasSubDirectory && curr.isEnd && i != file.length()-1 ){
+                    isSubFolder = true;
                     break;
                 }   
             }
+            if(!isSubFolder)
+                set.add(file);
         }
-        return set.stream().toList();
+        return set;
     }
 }
