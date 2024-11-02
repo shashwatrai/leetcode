@@ -8,12 +8,11 @@ class Solution {
         }
         return cnt;
     }
-    public int solve(List<String> arr,int indx,int dp[],int tracker){
+    public int solve(List<String> arr,int indx,int tracker){
         if(arr.size() == indx){
             return 0;
         }
 
-        
         int chars = 0;
         for(int i=0;i<arr.get(indx).length();i++){
            
@@ -23,19 +22,19 @@ class Solution {
         int with = 0;
 
         if(setBitCount(chars) == arr.get(indx).length() && ((chars & tracker) == 0))
-            with= chars | solve(arr,indx+1,dp,tracker|chars);
+            with= chars | solve(arr,indx+1,tracker|chars);
 
-        int without = solve(arr,indx+1,dp,tracker);
-        // System.out.println(arr.get(indx)+" "+setBitCount(chars)+" "+tracker+" "+with+" "+without);
-        if(setBitCount(with) > setBitCount(without)){
-            dp[indx] = with;
-        }else
-            dp[indx] = without;
+        int without = solve(arr,indx+1,tracker);
         
-        return dp[indx];
+        if(setBitCount(with) > setBitCount(without)){
+            return with;
+        }else
+            return without;
+        
         
     }
     public int maxLength(List<String> arr) {
-        return  setBitCount(solve(arr,0,new int[arr.size()],0));
+
+        return  setBitCount(solve(arr,0,0));
     }
 }
