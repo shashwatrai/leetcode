@@ -1,127 +1,102 @@
+class Node{
+    int val;
+    long cnt;
+    Node(int v,long c){
+        this.val = v;
+        this.cnt = c;
+    }
+    public String toString(){
+        return "val:"+ this.val;
+    }
+}
+
 class MKAverage {
 
-    TreeMap<Integer,Integer> left,middle,right;
-    Queue<Integer> queue;
-    int m,k;
-    int leftCount,rightCount,middleCount,sum;
-    public MKAverage(int m, int k) {
-        left = new TreeMap<>();
-        right = new TreeMap<>();
-        middle = new TreeMap<>();
-        queue  = new LinkedList<>();
-        this.m = m;
-        this.k = k;
 
-        leftCount= rightCount = middleCount = sum = 0;
+    TreeSet<Node> left;
+    TreeSet<Node> center;
+    TreeSet<Node> right;
+    Queue<Node> queue;
+    int capacity;
+    int size;
+    int centerSum;
+    long cnt;
+    public MKAverage(int m, int k) {
+        capacity = m;
+        size = k;
+        left = new TreeSet<>((a,b)->a.val != b.val ? a.val - b.val: Long.compare(a.cnt,b.cnt));
+        right = new TreeSet<>((a,b)->a.val != b.val ? a.val - b.val: Long.compare(a.cnt,b.cnt));
+        center = new TreeSet<>((a,b)->a.val != b.val ? a.val - b.val: Long.compare(a.cnt,b.cnt));
+        queue = new LinkedList<>();
+        centerSum =0;
+        cnt = 0L;
     }
     
-    public void removeElement(){
-        if(leftCount + rightCount + middleCount == m){
-            int num = queue.poll();
-            if(left.containsKey(num) ){
-                if(left.get(num) == 1){
-                    left.remove(num);
-                }else{
-                    left.merge(num,-1,Integer::sum);
-                }
-                leftCount--;
-            }else if(right.containsKey(num)){
-                if(right.get(num) == 1){
-                    right.remove(num);
-                }else{
-                    right.merge(num,-1,Integer::sum);
-                }
-                rightCount--;
-            }else{
-                if(middle.get(num) == 1){
-                    middle.remove(num);
-                }else{
-                    middle.merge(num,-1,Integer::sum);
-                }
-                middleCount--;
-                sum-=num;
-            }
-        }
-    }
-    public void balance(){
-        
-        if(leftCount > k){
-            int num  = left.lastKey();
-            if(left.get(num) == 1){
-                left.remove(num);
-            }else{
-                left.merge(num,-1,Integer::sum);
-            }
-            leftCount--;
-            middle.merge(num,1,Integer::sum);
-            middleCount++;
-            sum+=num;
-        }
-        if(rightCount > k){
-            int num  = right.firstKey();
-            if(right.get(num) == 1){
-                right.remove(num);
-            }else{
-                right.merge(num,-1,Integer::sum);
-            }
-            rightCount--;
-            middle.merge(num,1,Integer::sum);
-            middleCount++;
-            sum+=num;
-        } 
-        if(middleCount > m-2*k){
-            System.out.println((m-2*k));
-            if(leftCount < k){
-                int num  = middle.firstKey();
-                if(middle.get(num) == 1){
-                    middle.remove(num);
-                }else{
-                    middle.merge(num,-1,Integer::sum);
-                }
-                middleCount--;
-                sum-=num;
-                left.merge(num,1,Integer::sum);
-                leftCount++; 
-            }else{
-                int num  = middle.lastKey();
-                if(middle.get(num) == 1){
-                    middle.remove(num);
-                }else{
-                    middle.merge(num,-1,Integer::sum);
-                }
-                middleCount--;
-                sum-=num;
-                right.merge(num,1,Integer::sum);
-                rightCount++; 
-            }
-        }
-        
-    }
     public void addElement(int num) {
-        removeElement();
-
-        if(!left.isEmpty() && left.lastKey() >=  num){
-            left.merge(num,1,Integer::sum);
-            leftCount++;
-        }else if(!right.isEmpty() && right.firstKey() <= num){
-            right.merge(num,1,Integer::sum);
-            rightCount++;
-        }else {
-            middle.merge(num,1,Integer::sum);
-            middleCount++;
-            sum+=num;
+        Node newNode = new Node(num,cnt++);
+        queue.add(newNode);
+        if(queue.size() > capacity){
+            Node ele = queue.poll();
+            if(left.contains(ele)){
+                left.remove(ele);
+            }else if(center.contains(ele)){
+                centerSum -= ele.val;
+                center.remove(ele);
+            }else{
+                right.remove(ele);               
+            }
+            backFill();
         }
-        queue.add(num);
+        left.add(newNode);    
         balance();
-        System.out.println(num +" "+left+"|"+leftCount+ " "+ middle +"|"+middleCount+" "+ right+"|"+rightCount);
+                // System.out.println(queue+" "+left+" "+center+" "+right);
+    }
+    private void backFill(){
+        while(left.size() < size){
+            Node first = center.first();
+            centerSum -= first.val;
+            left.add(first);
+            center.remove(first);
+        }
+        while(center.size() < capacity - 2*size){
+            Node first = right.first();
+            centerSum += first.val;
+            center.add(first);
+            right.remove(first);
+        }
+    }
+    private void balance(){
+        
+        while(left.size() > size){
+            Node last = left.last();
+            centerSum += last.val;
+            left.remove(last);
+            center.add(last);
+        }
+        
+        
+        while(center.size() > capacity - 2*size){
+            Node last = center.last();
+            centerSum -= last.val;
+            center.remove(last);
+            right.add(last);
+        }
+        
+        
+        // while(right.size() > size){
+        //     Node last = right.last();
+        //     left.add(last);
+        //     right.remove(last);
+        // }
+        // balance();
     }
     
     public int calculateMKAverage() {
+        // System.out.println(queue+" "+left+" "+center+" "+right);
+        if(queue.size() != capacity)
+            return -1;
         
-        if(leftCount + middleCount + rightCount == m){
-            return sum/(m-2*k);
-        }
-        return -1;
+        return (centerSum)/(capacity - 2 * size);
     }
 }
 
