@@ -83,7 +83,7 @@ class Solution {
         List<List<Integer>> res = new ArrayList<>();
 
         for(int i=0;i<m;i++){
-            System.out.println(Arrays.toString(status1[i]));// +" "+Arrays.toString(status1[i]) );
+            // System.out.println(Arrays.toString(status1[i]));// +" "+Arrays.toString(status1[i]) );
             for(int j=0;j<n;j++){
                 if(status1[i][j] ==2 && status2[i][j] == 2){
                     res.add(Arrays.asList(i,j));
