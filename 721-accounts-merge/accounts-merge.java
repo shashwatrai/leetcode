@@ -1,65 +1,71 @@
 class Solution {
 
-    public int findParent(int []parent,int a){
-        if(parent[a] == -1)
+    public int findParent(int a, int []parent){
+        if( a == parent[a])
             return a;
-        return parent[a] = findParent(parent,parent[a]);
+        return parent[a] = findParent(parent[a],parent);
     }
 
-    public void merge(int parent[], int a,int b){
-        a = findParent(parent,a);
-        b = findParent(parent,b);
+    public void merge(int a,int b,int []parent){
+        a = findParent(a,parent);
+        b = findParent(b,parent);
 
-        if (a!=b) {
+        if(a != b){
             parent[b] = a;
-        } 
+        }
     }
-
     public List<List<String>> accountsMerge(List<List<String>> accounts) {
         int n = accounts.size();
-        int []parent = new int[n];
-        Arrays.fill(parent,-1);
-        for(int i=1;i<n;i++){
-            for(int j = 0;j<i;j++){
-                
-                if(accounts.get(j).get(0).compareTo(accounts.get(i).get(0)) == 0){
-                    HashSet<String> hashSet = new HashSet(accounts.get(j));
-                    for(int k = 1;k<accounts.get(i).size();k++){
-                        if(hashSet.contains(accounts.get(i).get(k))){
-                            if(parent[i] == -1)
-                                parent[i] = j;
-                            else {
-                                merge(parent,i,j);
-                            }
-                        }
-                    }
-                     
-                }
-
-            }
-        }
-        for(int i=0;i<n;i++)
-            findParent(parent,i);
-
-        List<List<String>> ans  = new ArrayList<>();
+        List<Set<String>> processing = new ArrayList<>();
         for(int i=0;i<n;i++){
-            
-            if(parent[i] == -1){
-                HashSet<String> hash = new HashSet<>(accounts.get(i));
-                for(int j = 0;j<n;j++){
-                    if(parent[j] == i){
-                        hash.addAll(accounts.get(j));
+            HashSet<String> set = new HashSet<>();
+            for(int j=1;j<accounts.get(i).size();j++)
+                set.add(accounts.get(i).get(j));
+            processing.add(set);
+        }
+        // System.out.println(processing);
+        int []parent = new int[n];
+        for(int i=0;i<n;i++){
+            parent[i] = i;
+        }
+        for(int i=0;i<n;i++){
+            for(int j=i+1;j<n;j++){
+                boolean flag = false; 
+                for(String s: processing.get(i)){
+                    if(processing.get(j).contains(s)){
+                        flag = true;
+                        break;
                     }
                 }
-                hash.remove(accounts.get(i).get(0));
-                List<String> temp = new ArrayList<>();
-                temp.add(accounts.get(i).get(0));
-                List<String> temp2 = new ArrayList<>(hash);
-                Collections.sort(temp2);
-                temp.addAll(temp2);
-                ans.add(temp);
+                if(flag ){
+                    merge(i,j,parent);
+                }
             }
         }
-        return ans;
+        Set<Integer> set = new HashSet<>();
+        for(int i=0;i<n;i++){
+            findParent(i,parent);
+            set.add(parent[i]);
+        }
+        List<List<String>> res= new ArrayList<>();
+        // System.out.println(Arrays.toString(parent)+" "+set);
+        for(int i:set){
+            TreeSet<String> x = new TreeSet<>();
+            for(int j=0;j<n;j++){
+                if(parent[j] == i){
+                    for(int l = 1;l<accounts.get(j).size();l++){
+                        // System.out.println(j+" "+accounts.get(j));
+                        x.add(accounts.get(j).get(l));
+                    }
+                }
+            }
+            List<String> arr = new ArrayList<>();
+            arr.add(accounts.get(i).get(0));
+            arr.addAll(x);
+            res.add(arr);
+        }
+        return res;
+
+
     }
 }
