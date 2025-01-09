@@ -51,7 +51,7 @@ class Solution {
             curr = curr.childs[s.charAt(i) - 'a'];
             if(curr == null)
                 break;
-            // System.out.println(s.charAt(i)+" "+curr.count);
+            System.out.println(s.charAt(i)+" "+Arrays.toString(curr.collection));
         }
         if(curr == null)
             return null;
@@ -75,6 +75,7 @@ class Solution {
             boolean f[] = traverse(frontRoot,words[i]);
             boolean r[] = traverse(reverseRoot,stb.reverse().toString());
             if(f != null && r != null){
+                System.out.println(Arrays.toString(f)+" "+Arrays.toString(r));
                 for(int j=0;j<f.length;j++){
                     if(f[j] && r[j])
                         count++;
@@ -84,8 +85,8 @@ class Solution {
             int []pi = prepare(words[i]);
             
             stb.append(words[i].substring(0,pi[words[i].length()-1]+1));
-            // System.out.println(words[i]+" "+count+" "+stb.toString());
-            add(frontRoot,stb.toString(),i,words.length);
+            // System.out.println(words[i]+" "+stb.reverse().toString());
+            add(frontRoot,words[i],i,words.length);
             add(reverseRoot,stb.reverse().toString(),i,words.length);
             stb.setLength(0);
         }
