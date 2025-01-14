@@ -13,6 +13,10 @@ class Solution {
         if(n+1 == (next2spower+1)/2 )
             return indx > 1 ? arr[indx-2] : 0;
 
+        // other half having the most significant bit as 0
+        // 2 most significant set bit
+        // min of the remaining or maximun formed using remaining bits
+        // consider example of 100 to understand it.
         int ans = Math.max(0,n + 1 -  (next2spower+1)/2 - (next2spower+1)/4)
                              + (indx > 1 ? arr[indx-2] : 0) 
                              + calculate(arr,Math.min(n-(next2spower+1)/2, (next2spower+1)/4));
