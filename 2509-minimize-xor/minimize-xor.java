@@ -9,7 +9,7 @@ class Solution {
         
         while(len > 0 && n > 0){
             int isSet = num1 & (1 << (len-1));
-            System.out.println(isSet);
+            // System.out.println(isSet);
             if(isSet != 0){
                 res |= (1 << (len-1));
                 n--;
