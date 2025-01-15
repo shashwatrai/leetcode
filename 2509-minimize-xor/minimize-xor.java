@@ -16,7 +16,7 @@ class Solution {
             }
             len--;
         }
-        System.out.println(n +" "+len+" "+res);
+        // System.out.println(n +" "+len+" "+res);
         if(n > 0){
             while(n > 0){
                 int isSet = res & (1 << (len));
