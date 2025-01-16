@@ -14,7 +14,7 @@ class Solution {
         if(next == n){
             return arr[indx];
         }
-        System.out.println(n+" "+next + " "+indx+" "+Arrays.toString(arr));
+        // System.out.println(n+" "+next + " "+indx+" "+Arrays.toString(arr));
         return arr[indx-1] + findAns(arr,Math.min(n-(next+1)/2,(next+1)/4 - 1));
     }
     public int findIntegers(int n) {
