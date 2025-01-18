@@ -21,6 +21,6 @@ class Solution {
                 prev = nums[i];
             }
         }
-        return count <= 1;
+        return true;
     }
 }
