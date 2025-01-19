@@ -27,7 +27,6 @@ class Solution {
                 finalH[i][j]= Math.min(left[i][j],Math.min(right[i][j],Math.min(up[i][j],down[i][j])));
             }
         }
-        // System.out.println(Arrays.deepToString(finalH)); 
         while(true){
             int [][]temp = new int[m][];
             for(int i=0;i<m;i++)
@@ -38,7 +37,6 @@ class Solution {
                     finalH[i][j] = Math.max(heightMap[i][j],Math.min(finalH[i-1][j],Math.min(finalH[i+1][j],Math.min(finalH[i][j-1],finalH[i][j+1]))));
                 }
             }
-            // System.out.println(Arrays.deepToString(finalH));        
             if(Arrays.deepEquals(temp,finalH))
                 break;
         }
@@ -47,11 +45,6 @@ class Solution {
             for(int j=0;j<n;j++)
                 ans += finalH[i][j] - heightMap[i][j];
         }
-        // System.out.println(Arrays.deepToString(left));
-        // System.out.println(Arrays.deepToString(right));
-        // System.out.println(Arrays.deepToString(up));
-        // System.out.println(Arrays.deepToString(down));
-        //  System.out.println(Arrays.deepToString(finalH));
         return ans;
     }
 }
