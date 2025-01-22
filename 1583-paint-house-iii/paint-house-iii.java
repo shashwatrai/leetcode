@@ -18,9 +18,7 @@ class Solution {
                                 continue;
                             dp[i][j][k] = Math.min(dp[i][j][k], dp[i-1][l][k-1] != Integer.MAX_VALUE ? dp[i-1][l][k-1] + cost[i-1][j-1] : Integer.MAX_VALUE );
                         }
-                        System.out.print(dp[i][j][k]+" ");
                     }  
-                    System.out.println(); 
                 }
             }else{
                 int j = houses[i-1];
