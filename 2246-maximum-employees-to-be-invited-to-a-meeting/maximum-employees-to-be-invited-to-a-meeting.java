@@ -64,7 +64,6 @@ class Solution {
                 map.get(favorite[i]).add(i);
             }
         }
-        System.out.println(map);
 
         vis = new boolean[n];
 
