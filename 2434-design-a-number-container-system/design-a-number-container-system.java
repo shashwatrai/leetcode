@@ -1,9 +1,9 @@
 class NumberContainers {
     HashMap<Integer,Integer> indxToNo;
-    TreeMap<Integer,TreeSet<Integer>> noToIndx;
+    Map<Integer,TreeSet<Integer>> noToIndx;
     public NumberContainers() {
         indxToNo = new HashMap<>();
-        noToIndx = new TreeMap<>();
+        noToIndx = new HashMap<>();
     }
     
     public void change(int index, int number) {
