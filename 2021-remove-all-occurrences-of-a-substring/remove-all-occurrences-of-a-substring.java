@@ -23,7 +23,6 @@ class Solution {
 
         int l=-1,k=-1;
         for(int i=0;i<cArr.length;i++){
-            System.out.println(l+" "+k+" "+i);
             while(k!= -1 && part.charAt(k+1) != s.charAt(i)){
                 k = pi[k];
             }
