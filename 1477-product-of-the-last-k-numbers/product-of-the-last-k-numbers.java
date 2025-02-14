@@ -2,11 +2,11 @@ class ProductOfNumbers {
 
     int arr[];
     int indx;
-    List<Integer> lastZero;
+    int lastZero;
     public ProductOfNumbers() {
         arr = new int[100000];
         indx = 0;
-        lastZero = new ArrayList<>();
+        lastZero = -1;
     }
     
     public void add(int num) {
@@ -18,11 +18,11 @@ class ProductOfNumbers {
             arr[indx] = num;
         
         if(num == 0)
-            lastZero.add(indx);
+            lastZero=indx;
     }
     
     public int getProduct(int k) {
-        if(lastZero.size() > 0 && lastZero.get(lastZero.size()-1) > indx - k)
+        if(lastZero > indx - k)
             return 0;
         else{
             int d = arr[indx-k] == 0 ? 1:arr[indx-k];
