@@ -28,7 +28,7 @@ class TreeAncestor {
         // System.out.println(Arrays.toString(dp[node]));
         int a = 0;
         while(k >= (1<<a) && curr != -1){
-            System.out.println(node+" "+curr);
+            // System.out.println(node+" "+curr);
             if((k&(1<<a)) != 0)
                 curr = dp[curr][a];
             a++;
