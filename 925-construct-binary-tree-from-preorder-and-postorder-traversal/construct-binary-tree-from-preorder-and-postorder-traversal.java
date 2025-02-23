@@ -17,7 +17,7 @@ class Solution {
     public TreeNode construct(int []preorder,int postorder[],
             Map<Integer,Integer> premap,Map<Integer,Integer> postmap,
             int s1,int e1,int s2,int e2){
-        System.out.println(s1+" "+e1+" "+s2+" "+e2);
+        // System.out.println(s1+" "+e1+" "+s2+" "+e2);
         if(s1 == preorder.length || s2 == postorder.length || s1 > e1 || s2 > e2)
             return null;
         else if(s1 == e1 && s2 == e2)
