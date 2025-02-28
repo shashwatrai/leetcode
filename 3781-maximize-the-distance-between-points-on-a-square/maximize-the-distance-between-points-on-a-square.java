@@ -27,11 +27,13 @@ class Solution {
                 if(vis.contains(start%R))
                     break;
                 Long c = vis.ceiling(start%R);
+                if(c == null && !vis.isEmpty())
+                    c = vis.first();
                 Long f = vis.floor(start%R);
-                if((c != null && c - start%R < dist) || (f != null && start%R - f < dist))
+                if((c != null && findDist(c%R,start%R,R) < dist) || (f != null && findDist(f%R,start%R,R) < dist))
                     break;
                 vis.add(start%R);
-                arr.add(start);
+                // arr.add(start);
 
                 
                 Long next = perimeter.ceiling(start+dist);
@@ -41,16 +43,16 @@ class Solution {
                 count--;
             }
             // System.out.println(curr+" "+dist+" "+arr);
-            boolean found = arr.size() >= k ;
-            if(arr.size() >= k){
-                for(int j=0;j<arr.size();j++){
-                    if(findDist(arr.get((j+1)%arr.size())%R,arr.get(j)%R,R) < dist){
-                        found = false;
-                        break;
-                    }
-                }
-            }
-            if(found)
+            // boolean found = arr.size() >= k ;
+            // if(arr.size() >= k){
+            //     for(int j=0;j<arr.size();j++){
+            //         if(findDist(arr.get((j+1)%arr.size())%R,arr.get(j)%R,R) < dist){
+            //             found = false;
+            //             break;
+            //         }
+            //     }
+            // }
+            if(vis.size() == k)
                 return true;
         }
 
