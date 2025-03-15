@@ -1,27 +1,13 @@
 class Solution {
     public boolean isPossible(int []nums,int target,int k){
-        List<Integer> arr = new ArrayList<>();
-
+        int len =0 ;
         for(int i=0;i<nums.length;i++){
-            if(nums[i] <= target)
-                arr.add(i);
-        }
-        if(arr.size() < k)
-            return false;
-        int prev = 0,curr=0;
-        for(int i=0;i<arr.size();i++){
-            if(i> 0 && arr.get(i-1) + 1 < arr.get(i)){
-                prev = curr;
-                curr++;
-            }else{
-                int temp = prev;
-
-                prev = curr;
-                curr = Math.max(curr,temp+1);
+            if(nums[i] <= target){
+                len++;
+                i++;
             }
         }
-        // System.out.println(target+" "+curr+" "+prev +" "+arr);
-        return curr >= k;
+        return len >= k;
     }
     public int minCapability(int[] nums, int k) {
         int l = 1;
