@@ -10,16 +10,14 @@ class Solution {
             for(int j=0;j<32;j++){
                 if((nums[i] & (1 << j)) != 0){
                     if(lastPos[j] != -1){
-                        start = lastPos[j];
-                        for(int k=0;k<32;k++){
-                            if(lastPos[k] <= start)
-                                lastPos[k] = -1;
-                        }
+                        start = Math.max(start,lastPos[j]); 
                     }
                     lastPos[j] = i;
                 }
-
             }
+            for(int j=0;j<32;j++)
+                if(lastPos[j] != -1 && lastPos[j] <= start)
+                    lastPos[j] = -1;
             // System.out.println(start+" "+i+" "+len);
             len = Math.max(i-start,len);
         }
