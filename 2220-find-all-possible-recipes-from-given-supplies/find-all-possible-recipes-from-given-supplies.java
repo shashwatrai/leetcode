@@ -1,45 +1,39 @@
 class Solution {
     public List<String> findAllRecipes(String[] recipes, List<List<String>> ingredients, String[] supplies) {
-        Map<String ,Set<String > > map = new HashMap<>();
-        Map<String ,Integer> inDegree = new HashMap<>();
-        Set<String> availableRecipes = new HashSet<>();
+        Map<String, List<String>> adj = new HashMap<>();
+        Map<String, Integer> inDegree = new HashMap<>();
+        Set<String> setR = new HashSet<>();
         for(int i=0;i<recipes.length;i++){
-            inDegree.put(recipes[i],0);
-            availableRecipes.add(recipes[i]);
-            for(int j=0;j<ingredients.get(i).size();j++){
-                if(!map.containsKey(ingredients.get(i).get(j))){
-                    map.put(ingredients.get(i).get(j),new HashSet<>());
+            for(int j =0 ;j<ingredients.get(i).size();j++){
+                if(!adj.containsKey(ingredients.get(i).get(j))){
+                    adj.put(ingredients.get(i).get(j),new ArrayList<>());
                 }
-                map.get(ingredients.get(i).get(j)).add(recipes[i]);
-                inDegree.put(recipes[i],inDegree.get(recipes[i])+1);
+                adj.get(ingredients.get(i).get(j)).add(recipes[i]);
             }
-        }
-
-        Queue<String> queue = new LinkedList<>();
-        for(int i=0;i<supplies.length;i++){
-            queue.add(supplies[i]);
+            inDegree.put(recipes[i],ingredients.get(i).size());
+            setR.add(recipes[i]);
         }
 
         List<String> ans = new ArrayList<>();
 
-        while(!queue.isEmpty()){
+        Queue<String> queue = new LinkedList<>();
+        for(String i: supplies){
+            queue.add(i);
+        }
 
-            String node = queue.poll();
-            if(availableRecipes.contains(node))
-                ans.add(node);
-            if(map.containsKey(node)){
-                for(String j: map.get(node)){
-                    inDegree.put(j,inDegree.getOrDefault(j,0)-1);
-                    if(inDegree.get(j) == 0){
+        while(!queue.isEmpty()){
+            String curr = queue.poll();
+            if(setR.contains(curr))
+                ans.add(curr);
+            
+            if(adj.containsKey(curr)){
+                for(String j:adj.get(curr)){
+                    inDegree.put(j,inDegree.get(j)-1);
+                    if(inDegree.get(j) == 0)
                         queue.add(j);
-                    }
                 }
             }
         }
         return ans;
-
-
-
-
     }
 }
