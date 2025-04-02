@@ -1,7 +1,6 @@
 class Solution {
     public long maximumTripletValue(int[] nums) {
         int n = nums.length;
-        int []arr = new int[n];
         int max = nums[0];
         long ans = 0L;
         int prev = 0;
