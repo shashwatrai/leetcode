@@ -30,7 +30,7 @@ class Solution {
                 }
             }
         }
-        System.out.println(map);
+        // System.out.println(map);
         Map<Integer,List<Integer>> adj = new HashMap<>();
         int []inDegree = new int[n];
         for(int i=0;i<n;i++){
