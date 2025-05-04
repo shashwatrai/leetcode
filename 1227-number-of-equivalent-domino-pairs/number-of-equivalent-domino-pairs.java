@@ -1,15 +1,15 @@
-
 class Solution {
     public int numEquivDominoPairs(int[][] dominoes) {
-        Map<String, Integer> map = new HashMap<>();
+        int []arr = new int[100];
 
         for(int i[]:dominoes){
             Arrays.sort(i);
-            map.put(Arrays.toString(i),map.getOrDefault(Arrays.toString(i),0)+1);
+
+            arr[i[0]*10+i[1]]++;
         }
         int ans=0;
-        for(String s: map.keySet()){
-            ans += (map.get(s) * (map.get(s)-1))/2;
+        for(int i=11;i<100;i++){
+            ans += (arr[i]*(arr[i]-1))/2;
         }
         return ans;
     }
