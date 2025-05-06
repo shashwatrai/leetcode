@@ -14,35 +14,20 @@
  * }
  */
 class Solution {
-    public void traverse(TreeNode root,Map<Integer,Stack<Integer>> map,int level ){
-        if(root == null)
-            return ;
-        
-        if(level%2 == 1){
-            if(!map.containsKey(level)){
-                map.put(level,new Stack<>());
-            }
-            map.get(level).push(root.val);
-        }
-        traverse(root.left,map,level+1);
-        traverse(root.right,map,level+1);
-    }
-    public void fill(TreeNode root,Map<Integer,Stack<Integer>> map,int level){
-        if(root == null)
+    public void reverse(TreeNode root1,TreeNode root2,int level){
+        if(root1 == null)
             return;
-        
-        if(map.containsKey(level)){
-            root.val = map.get(level).pop();
+
+        if(level % 2 == 1){
+            int temp = root2.val;
+            root2.val = root1.val;
+            root1.val = temp;
         }
-        fill(root.left,map,level+1);
-    
-        fill(root.right,map,level+1);
+        reverse(root1.left,root2.right,level+1);
+        reverse(root1.right,root2.left,level+1);
     }
     public TreeNode reverseOddLevels(TreeNode root) {
-        Map<Integer,Stack<Integer>> map = new HashMap<>();
-
-        traverse(root,map,0);
-        fill(root,map,0);
+        reverse(root.left, root.right, 1);
         return root;
     }
 }
