@@ -1,1 +1,1 @@
-<h2>reverse-odd-levels-of-binary-tree Notes</h2><hr>[ Time taken: 13 m 46 s ]
+<h2>reverse-odd-levels-of-binary-tree Notes</h2><hr>[ Time taken: 12 m 0 s ]
