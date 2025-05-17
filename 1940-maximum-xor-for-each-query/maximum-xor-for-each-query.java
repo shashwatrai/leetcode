@@ -5,14 +5,10 @@ class Solution {
             res ^=i ;
 
         int ans[] = new int[nums.length];
+        int temp = (1<<maximumBit) - 1;
         for(int indx=0;indx < ans.length;indx++){
-            int temp=0;
-            for(int i=0;i<maximumBit;i++){
-                if((res & (1<<i)) == 0){
-                    temp += (1<<i);
-                }
-            }
-            ans[indx] = temp;
+            
+            ans[indx] = res ^ temp;
             res ^= nums[nums.length-1-indx];
         }
         return ans;
