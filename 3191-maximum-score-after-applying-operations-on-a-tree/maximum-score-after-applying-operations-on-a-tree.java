@@ -16,8 +16,7 @@ class Solution {
         }
         long merged = 0L;
         for(List<Long> r : ans){
-            for(int i = 1;i<r.size();i++)
-                merged += r.get(i);
+            merged += r.get(1);
         }
         if(merged > (long)values[curr]){
             for(List<Long> r : ans){
@@ -29,14 +28,12 @@ class Solution {
             
         }else{
             long mergedScore = values[curr];
-            List<Long> temp = new ArrayList();
             for(List<Long> r : ans){
                 mergedScore += r.get(0);
-                for(int j=1;j<r.size();j++)
-                    temp.add(r.get(j));
             }
+            
             finalAns.add(mergedScore);
-            finalAns.addAll(temp);
+            finalAns.add(merged);
         }
         return finalAns;
     }
