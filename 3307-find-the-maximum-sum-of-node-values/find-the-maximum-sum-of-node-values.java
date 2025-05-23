@@ -10,7 +10,7 @@ class Solution {
             ans += (long)nums[i];
             pq.add(i);
         }
-        System.out.println(pq.size());
+        // System.out.println(pq.size());
         if(pq.size() %2 == 1){
             pq.poll();
             // System.out.println(t+" "+(k ^ nums[t] )+" "+((k ^ nums[t] )- nums[t]));
