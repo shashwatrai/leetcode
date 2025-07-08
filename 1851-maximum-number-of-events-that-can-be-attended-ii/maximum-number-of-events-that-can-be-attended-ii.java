@@ -1,37 +1,35 @@
 class Solution {
     public int maxValue(int[][] events, int k) {
-        
-        TreeMap<Integer, int[]> map = new TreeMap<>();
+        HashMap<Integer, Integer> tmap[] = new HashMap[k+1];
 
-        Arrays.sort(events,(a,b) -> a[1] - b[1]);
-        int ans = Integer.MIN_VALUE;
-        for(int event[]: events){
-            Integer prevnovlp = map.floorKey(event[0]-1);
-            Integer prevovlp = map.floorKey(event[1]);
-            if(!map.containsKey(event[1]))
-                map.put(event[1],new int[k]);
-            int []vals = map.get(event[1]);
-            if(prevnovlp == null){
-                if(prevovlp == null)
-                    Arrays.fill(vals,event[2]);
-                else{
-                    int []prevVals = map.get(prevovlp);
-                    vals[0] = Math.max(event[2],prevVals[0]);
-                    for(int i=1;i<k;i++){
-                        vals[i] = Math.max(vals[i-1],prevVals[i]);
-                    }
-                }
-            }else{
-                int []prevNoVals = map.get(prevnovlp);
-                int []prevoVals = map.get(prevovlp);
-                vals[0] = Math.max(event[2],Math.max(prevNoVals[0],prevoVals[0 ]));
-                for(int i=1;i<k;i++){
-                    vals[i] = Math.max(prevoVals[i],Math.max(
-                         prevNoVals[i-1]+event[2], prevNoVals[i]));
-                }
-            }
-            ans = Math.max(ans,vals[k-1]);
+        for(int i=0;i<=k;i++){
+            tmap[i] = new HashMap<>();
         }
-        return ans;
+
+        Arrays.sort(events,(a,b) -> a[1] != b[1] ? a[1] - b[1] : a[0] - b[0]);
+        TreeSet<Integer> tset = new TreeSet<>();
+
+        for(int i =0 ;i<events.length;i++){
+            for(int j = 1;j<=k;j++){
+                int left = tmap[j-1].getOrDefault(events[i][1],0);
+
+                Integer upperKey = i > 0 ? events[i-1][1] : null;
+                int upper = 0;
+                if(upperKey != null)
+                    upper = tmap[j].get(upperKey);
+                
+                Integer upperLeftKey = tset.floor(events[i][0]-1);
+                int upperLeft = 0;
+                // System.out.println(j+" "+upperLeftKey+" "+tmap[j-1]);
+                if(upperLeftKey != null)
+                    upperLeft = tmap[j-1].getOrDefault(upperLeftKey,0);
+
+                int profit = Math.max(Math.max(left,upper), upperLeft + events[i][2]);
+                tmap[j].put(events[i][1],profit);
+                
+            }
+            tset.add(events[i][1]);
+        }
+        return tmap[k].get(events[events.length - 1][1]);
     }
 }
