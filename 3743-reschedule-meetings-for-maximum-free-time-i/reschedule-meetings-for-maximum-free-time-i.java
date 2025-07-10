@@ -30,7 +30,7 @@ class Solution {
                     cnt -= wt.get(l);
                 totalDuration -= ends.get(l) - starts.get(l);
                 start = ends.get(l) + totalDuration;
-                System.out.println("--->"+start + " "+ totalDuration+" "+cnt);
+                // System.out.println("--->"+start + " "+ totalDuration+" "+cnt);
                 l++;
                 if(cnt <= k)
                     ans = Math.max(ans,starts.get(i) - start);
