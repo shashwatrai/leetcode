@@ -13,8 +13,8 @@ class Solution {
                 b2 = Math.max(j,b2);
             }
         }
-        System.out.println( x1 +" "+ x1 +" "+y1 +" "+y2);
-        System.out.println( l1 +" "+ l2 +" "+b1 +" "+b2);
+        // System.out.println( x1 +" "+ x1 +" "+y1 +" "+y2);
+        // System.out.println( l1 +" "+ l2 +" "+b1 +" "+b2);
         if(l1 == x2 && b1 == y2)
             return 1;
 
