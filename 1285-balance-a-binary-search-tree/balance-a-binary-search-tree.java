@@ -14,28 +14,34 @@
  * }
  */
 class Solution {
-    public void inOrder(TreeNode root,List<Integer> res){
+    public void traverse(TreeNode root, List<Integer> order){
         if(root == null)
             return;
-        inOrder(root.left,res);
-        res.add(root.val);
-        inOrder(root.right,res);
 
+        traverse(root.left,order);
+        order.add(root.val);
+        traverse(root.right,order);
+    
     }
-    public TreeNode prepareTree(List<Integer> res,int start,int end){
-        if(start > end){
+    public TreeNode prepare(List<Integer> order,int l, int r){
+
+        if(l > r)
             return null;
+        if(l==r){
+            return new TreeNode(order.get(l));
         }
-        int mid = (start+end)/2;
-        TreeNode left = prepareTree(res,start,mid-1);
-        TreeNode right = prepareTree(res,mid+1,end);
-        TreeNode node = new TreeNode(res.get(mid),left,right);
-        return node;
+
+        int m = (l+r)/2;
+        TreeNode left = prepare(order,l,m-1);
+        TreeNode right = prepare(order,m+1,r);
+        return new TreeNode(order.get(m),left,right);
+
     }
     public TreeNode balanceBST(TreeNode root) {
-        List<Integer> res= new ArrayList<>();
-        inOrder(root,res);
+        List<Integer> order = new ArrayList<>();
 
-        return prepareTree(res,0,res.size()-1);
+        traverse(root,order);
+
+        return prepare(order,0,order.size()-1);
     }
 }
