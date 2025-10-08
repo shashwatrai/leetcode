@@ -1,27 +1,25 @@
 class Solution {
-    public boolean isValid(int []trainers,int []players,int m){
-        int n = trainers.length;
-        int i = m,j=n-1;
-        for(;i>=0 && j >=0 ;i--,j--){
-            if(players[i] > trainers[j])
-                return false;
-        }
-        return i == -1;
-    }
     public int matchPlayersAndTrainers(int[] players, int[] trainers) {
-        Arrays.sort(players);
-        Arrays.sort(trainers);
+        TreeMap<Integer,Integer> tMap = new TreeMap<>();
 
-        int l = 0,r = players.length-1;
-
-        while(l<=r){
-            int m = (l+r)/2;
-
-            if(isValid(trainers,players,m))
-                l = m+1;
-            else
-                r = m-1;
+        for(int i=0;i<trainers.length;i++){
+            tMap.put(trainers[i],tMap.getOrDefault(trainers[i],0)+1);
         }
-        return l;
+
+        int ans = 0;
+       
+        for(int i=0;i<players.length;i++){
+            // System.out.println(tMap);
+            Integer t = tMap.ceilingKey(players[i]);
+            if(t== null)
+                continue;
+            if(tMap.get(t) == 1){
+                tMap.remove(t);
+            }else
+                tMap.put(t,tMap.get(t)-1);
+
+            ans++;
+        }
+        return ans;
     }
 }
