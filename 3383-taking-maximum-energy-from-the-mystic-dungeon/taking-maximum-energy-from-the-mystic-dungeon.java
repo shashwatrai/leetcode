@@ -1,18 +1,15 @@
 class Solution {
     public int maximumEnergy(int[] energy, int k) {
-        int []ans = new int[k];
+       
         int n = energy.length;
-        Arrays.fill(ans,-2000000000);
-        for(int i=0;i<n;i+=k){
-            for(int j = i;j < i+k && j < n;j++){
-                ans[j-i] = Math.max(ans[j-i]+energy[j],energy[j]);
-            }   
-        }
-
         int max = Integer.MIN_VALUE;
-
-        for(int i:ans)
-            max = Math.max(i,max);
+        for(int i=0;i<k;i++){
+            int temp = -2000000000;
+            for(int j = i; j < n;j+=k){
+                temp = Math.max(temp+energy[j],energy[j]);
+            }
+            max = Math.max(max,temp);   
+        }
 
         return max;
     }
