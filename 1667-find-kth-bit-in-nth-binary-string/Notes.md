@@ -1,1 +1,1 @@
-<h2>find-kth-bit-in-nth-binary-string Notes</h2><hr>[ Time taken: 25 m 1 s ]
+<h2>find-kth-bit-in-nth-binary-string Notes</h2><hr>[ Time taken: 14m 43s ]
