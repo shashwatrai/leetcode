@@ -1,1 +1,1 @@
-<h2>find-unique-binary-string Notes</h2><hr>[ Time taken: 13 m 25 s ]
+<h2>find-unique-binary-string Notes</h2><hr>[ Time taken: 5m 31s ]
