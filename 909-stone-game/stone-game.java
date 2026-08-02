@@ -1,21 +1,31 @@
 class Solution {
-    public boolean check(int []piles, int start, int end, int turn, int score1,int score2, int dp[][][]){
-        if(end-start == 1){
-            return score1 + Math.max(piles[start],piles[end]) > score2 + Math.min(piles[start],piles[end]);
-        }
-
-        if(dp[start][end][turn] != 0 )
-            return dp[start][end][turn] == 1;
-    
-        if(turn == 0){
-            dp[start][end][0] = check(piles,start+1,end,1,score1 + piles[start],score2,dp) ||  check(piles,start,end-1,1,score1 + piles[end],score2,dp) ? 1 : 2;
-        }else{
-           dp[start][end][1] = check(piles,start+1,end,0,score1 ,score2 + piles[start],dp) ||  check(piles,start,end-1,0,score1 ,score2 + piles[end],dp) ? 1 : 2;
-        }
-        return dp[start][end][turn] == 1;
-    }
     public boolean stoneGame(int[] piles) {
-        int dp[][][] = new int[piles.length][piles.length][2];
-        return check(piles,0, piles.length-1,0,0,0,dp);
+        int n = piles.length;
+
+        int dp[][][] = new int[n][n][2];
+       
+
+        for(int i=0;i<n;i++){
+           
+            dp[i][i][1] = piles[i];
+        }
+        
+        for(int l=1;l<n;l++){
+            int i = 0;
+            int j = l;
+            int sum =0;
+            for(int x = i;x<j;x++)
+                sum += piles[x];
+            int turn = (l+1)%2;
+            for(;j < n ; i++ ,j++){
+                sum += piles[j];
+                dp[i][j][turn] = Math.max(dp[i][j-1][turn] + piles[j], dp[i+1][j][turn] + piles[i]);
+                dp[i][j][1-turn] = sum - dp[i][j][turn];
+                sum -= piles[i];
+                // System.out.println(i+" "+j+" "+turn+" "+dp[i][j][turn]+" "+dp[i][j][1 - turn]);
+            }
+        }
+       
+        return dp[0][n-1][0] > dp[0][n-1][1];
     }
 }
