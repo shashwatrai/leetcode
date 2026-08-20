@@ -1,35 +1,28 @@
 class Solution {
     public int maxNumberOfFamilies(int n, int[][] reservedSeats) {
-        TreeMap<Integer, TreeSet<Integer>> map = new TreeMap<>();
+        Map<Integer, Integer> map = new HashMap<>();
 
-        for(int i[]:reservedSeats){
-            if(!map.containsKey(i[0]))
-                map.put(i[0], new TreeSet<>());
-            map.get(i[0]).add(i[1]);
+        for(int i[]: reservedSeats){
+            map.put(i[0], map.getOrDefault(i[0],0) | ( 1 << i[1]));
         }
-
-        int last = 0;
-        int ans  = 0;
-        for(int curr : map.keySet()){
-            ans += 2 * (curr - last - 1);
-            TreeSet<Integer> temp = map.get(curr);
-            boolean look = true;
-            if(!temp.contains(2) && !temp.contains(3) && !temp.contains(4) && !temp.contains(5)) {
+        
+        int ans = 2 * (n - map.size());
+        int comb1 = (1<<2) | (1<<3) | (1<<4) | (1<<5);
+        int comb2 = (1<<4) | (1<<5) | (1<<6) | (1<<7);
+        int comb3 = (1<<6) | (1<<7) | (1<<8) | (1<<9);
+        int comb4 = comb1 | comb3;
+        for(int i : map.keySet()){
+            int reserved = map.get(i);
+            // System.out.println(Integer.toBinaryString(reserved));
+            if((reserved & comb4 ) == 0)
+                ans += 2;
+            else if((reserved & comb1 ) == 0)
                 ans += 1;
-                look = false;
-            }
-            boolean nextLook = true;
-            if(look && !temp.contains(4) && !temp.contains(5) && !temp.contains(6) && !temp.contains(7)) {
+            else if((reserved & comb2 ) == 0)
                 ans += 1;
-                nextLook = false;
-            }
-
-            if(nextLook && !temp.contains(6) && !temp.contains(7) && !temp.contains(8) && !temp.contains(9)) {
+            else if((reserved & comb3 ) == 0)
                 ans += 1;
-            }
-            last = curr;
         }
-        ans += (n - last) * 2;
         return ans;
     }
 }
